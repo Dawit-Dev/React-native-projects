@@ -4,10 +4,11 @@ import { emailChanged } from '../actions'
 import { Card, CardSection, Input, Button } from '../components/common'
 import { StyleSheet, Text, View } from 'react-native'
 
-const LoginForm = () => {
+const LoginForm = (props) => {
     const onEmailChange = (text) => {
-        onEmailChange(text)
-    }
+      props.emailChanged(text);
+    };
+
   return (
     <Card>
           <CardSection>
@@ -15,6 +16,7 @@ const LoginForm = () => {
                   label="Email"
                   placeholder="email@gmail.com"
                   onChangeText={onEmailChange}
+                  value={props.email}
               />
       </CardSection>
           <CardSection>
@@ -33,5 +35,11 @@ const LoginForm = () => {
   );
 }
 
+const mapStateToProps = state => {
+    return {
+        email: state.auth.email
+    }
+}
+
 const styles = StyleSheet.create({})
-export default connect(null, { emailChanged })(LoginForm)
+export default connect(mapStateToProps, { emailChanged })(LoginForm)
