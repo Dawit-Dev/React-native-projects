@@ -1,13 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { emailChanged } from '../actions'
+import { emailChanged, passwordChanged, loginUser } from '../actions'
 import { Card, CardSection, Input, Button } from '../components/common'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 const LoginForm = (props) => {
     const onEmailChange = (text) => {
       props.emailChanged(text);
     };
+
+    const onPasswordChange = (text) => {
+        props.passwordChanged(text)
+    }
+
+    const onButtonPress = () => {
+        const { email, password } = props
+        props.loginUser({ email, password })
+    }
 
   return (
     <Card>
@@ -24,10 +33,12 @@ const LoginForm = (props) => {
                   secureTextEntry
                   label="Password"
                   placeholder="password"
+                  onChangeText={onPasswordChange}
+                  value={props.password}
               />
       </CardSection>
           <CardSection>
-              <Button>
+              <Button onPress={onButtonPress}>
                   Login
               </Button>
       </CardSection>
@@ -37,9 +48,10 @@ const LoginForm = (props) => {
 
 const mapStateToProps = state => {
     return {
-        email: state.auth.email
+        email: state.auth.email,
+        password: state.auth.password
     }
 }
 
 const styles = StyleSheet.create({})
-export default connect(mapStateToProps, { emailChanged })(LoginForm)
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(LoginForm)
