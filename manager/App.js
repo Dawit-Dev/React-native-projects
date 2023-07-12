@@ -42,7 +42,7 @@ import thunk from "redux-thunk";
 import reducers from "./src/reducers";
 import LoginForm from "./src/components/LoginForm";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, isSupported } from "firebase/analytics";
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -56,8 +56,15 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+let app, analytics;
+if (isSupported()) {
+  app = initializeApp(firebaseConfig);
+  analytics = getAnalytics(app);
+} else {
+  // Handle unsupported environment
+  app = null;
+  analytics = null;
+}
 
 class App extends Component {
   render() {
