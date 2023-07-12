@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@expo/cli": "^0.7.3",
+    "@react-navigation/native": "^6.1.7",
+    "@react-navigation/native-stack": "^6.9.13",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
     "firebase": "^9.23.0",

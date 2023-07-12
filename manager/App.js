@@ -40,9 +40,9 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./src/reducers";
-import LoginForm from "./src/components/LoginForm";
 import { initializeApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
+import Router from "./src/Router";
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -70,10 +70,11 @@ class App extends Component {
   render() {
     return (
       <Provider store={createStore(reducers, {}, applyMiddleware(thunk))}>
-        <LoginForm />
+        <Router />
       </Provider>
     );
   }
 }
 
 export default App;
+
