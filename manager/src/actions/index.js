@@ -1,12 +1,22 @@
-import firebase from "firebase/app";
-import "firebase/auth";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
+import { useNavigation } from "@react-navigation/native";
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAIL,
-  LOGIN_USER
+  LOGIN_USER,
 } from "./types";
+import { firebaseConfig } from "./firebaseConfig";
+import { initializeApp } from "firebase/app";
+
+// Initialize Firebase app
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 export const emailChanged = (text) => {
   return {
@@ -24,17 +34,15 @@ export const passwordChanged = (text) => {
 
 export const loginUser = ({ email, password }) => {
   return (dispatch) => {
-    dispatch({ type: LOGIN_USER })
+    dispatch({ type: LOGIN_USER });
 
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((user) => loginUserSuccess(dispatch, user))
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => loginUserSuccess(dispatch, userCredential.user))
       .catch(() => {
-        firebase
-          .auth()
-          .createUserWithEmailAndPassword(email, password)
-          .then((user) => loginUserSuccess(dispatch, user))
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) =>
+            loginUserSuccess(dispatch, userCredential.user)
+          )
           .catch(() => loginUserFail(dispatch));
       });
   };
@@ -44,9 +52,9 @@ const loginUserFail = (dispatch) => {
   dispatch({ type: LOGIN_USER_FAIL });
 };
 
-const loginUserSuccess = (dispatch, user) => {
-  dispatch({
-    type: LOGIN_USER_SUCCESS,
-    payload: user,
-  });
+const loginUserSuccess = (dispatch) => {
+  dispatch({ type: LOGIN_USER_SUCCESS });
+
+  const navigation = useNavigation();
+  navigation.navigate("employeeList");
 };

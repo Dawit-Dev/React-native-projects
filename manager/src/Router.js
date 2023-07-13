@@ -10,14 +10,14 @@ const Stack = createNativeStackNavigator();
 const Router = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoginForm">
+      <Stack.Navigator initialRouteName="login">
         <Stack.Screen
-          name="Please Login"
+          name="login"
           component={LoginForm}
-          options={{ title: "Login" }}
+          options={{ title: "Please Login" }}
         />
         <Stack.Screen
-          name="Employees"
+          name="employees"
           component={EmployeeList}
           options={{ title: "Employee List" }}
         />
