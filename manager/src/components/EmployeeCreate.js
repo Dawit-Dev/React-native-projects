@@ -1,14 +1,23 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from "react";
+import { Card, CardSection, Input, Button } from "./common";
 
 const EmployeeCreate = () => {
   return (
-    <View>
-      <Text>Employee Create</Text>
-    </View>
-  )
-}
+    <Card>
+      <CardSection>
+        <Input label="Name" placeholder="Dawit" />
+      </CardSection>
+      <CardSection>
+        <Input label="Phone" placeholder="333-666-999" />
+      </CardSection>
+      <CardSection></CardSection>
+      <CardSection>
+        <Button>Create</Button>
+      </CardSection>
+    </Card>
+  );
+};
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
 
-export default EmployeeCreate
+export default EmployeeCreate;
