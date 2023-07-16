@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 const Router = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="login">
+      <Stack.Navigator initialRouteName="employee create">
         <Stack.Screen
           name="login"
           component={LoginForm}

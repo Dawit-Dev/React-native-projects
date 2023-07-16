@@ -13,6 +13,7 @@
     "@firebase/analytics": "^0.10.0",
     "@firebase/app": "^0.9.14",
     "@firebase/auth": "^1.0.0",
+    "@react-native-picker/picker": "^2.4.10",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "expo": "~48.0.18",
