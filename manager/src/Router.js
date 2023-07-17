@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginForm from "./components/LoginForm";
 import EmployeeList from "./components/EmployeeList";
 import EmployeeCreate from "./components/EmployeeCreate";
+import EmployeeEdit from "./components/EmployeeEdit";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,9 +28,14 @@ const Router = () => {
           options={{ title: "Employee List" }}
         />
         <Stack.Screen
-          name="employee create"
+          name="employeeCreate"
           component={EmployeeCreate}
           options={{ title: "Create Employee" }}
+        />
+        <Stack.Screen
+          name="employeeEdit"
+          component={EmployeeEdit}
+          options={{ title: "Edit Employee" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -5,7 +5,7 @@ import { CardSection } from "./common";
 
 const ListItem = (props) => {
   const onRowPress = () => {
-    Actions.employeeCreate({ employee: props.employee });
+    Actions.employeeEdit({ employee: props.employee });
   };
   const { name } = props.employee;
 
