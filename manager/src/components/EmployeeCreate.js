@@ -1,10 +1,15 @@
 import React from "react";
+import { StyleSheet, Text } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { connect } from "react-redux";
-import { employeeUpdate } from "../actions";
+import { employeeUpdate, employeeCreate } from "../actions";
 import { Card, CardSection, Input, Button } from "./common";
 
 const EmployeeCreate = (props) => {
+    const onButtonPress = () => {
+        const { name, phone, shift } = props;
+        props.employeeCreate({ name, phone, shift: shift || 'Monday' });
+    }
   return (
     <Card>
       <CardSection>
@@ -28,8 +33,9 @@ const EmployeeCreate = (props) => {
         />
       </CardSection>
       <CardSection>
-              <Picker
-                  style={{ flex: 1 }}
+        <Text style={styles.pickerTextStyle}>Shift</Text>
+        <Picker
+          style={{ flex: 1 }}
           selectedValue={props.shift}
           onValueChange={(value) =>
             props.employeeUpdate({ prop: "shift", value })
@@ -45,11 +51,18 @@ const EmployeeCreate = (props) => {
         </Picker>
       </CardSection>
       <CardSection>
-        <Button>Create</Button>
+        <Button onPress={onButtonPress()}>Create</Button>
       </CardSection>
     </Card>
   );
 };
+
+const styles = StyleSheet.create({
+  pickerTextStyle: {
+    fontSize: 18,
+    paddingLeft: 20,
+  },
+});
 
 const mapStateToProps = (state) => {
   const { name, phone, shift } = state.employeeForm;
@@ -57,4 +70,4 @@ const mapStateToProps = (state) => {
   return { name, phone, shift };
 };
 
-export default connect(mapStateToProps, { employeeUpdate })(EmployeeCreate);
+export default connect(mapStateToProps, { employeeUpdate, employeeCreate })(EmployeeCreate);
