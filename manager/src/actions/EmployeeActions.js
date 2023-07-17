@@ -1,12 +1,12 @@
-import { getAuth } from "firebase/auth";
+ import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../actions/firebaseConfig";
-import { Action } from "react-native-router-flux";
 import {
   EMPLOYEE_UPDATE,
   EMPLOYEE_CREATE,
   EMPLOYEES_FETCH_SUCCESS,
 } from "./types";
+import { useNavigation } from "@react-navigation/native";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -28,12 +28,13 @@ export const employeeCreate = ({ name, phone, shift }) => {
       .push({ name, phone, shift })
       .then(() => {
         dispatch({ type: EMPLOYEE_CREATE });
-        Action.employeeList({ type: "reset" });
+        const navigation = useNavigation();
+        navigation.reset({ index: 0, routes: [{ name: "employeeList" }] });
       });
   };
 };
 
-export const employeeFetch = () => {
+export const employeesFetch = () => {
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
@@ -41,7 +42,7 @@ export const employeeFetch = () => {
       .database()
       .ref(`/users/${currentUser.uid}/employees`)
       .on("value", (snapshot) => {
-        dispatch({ type: EMPLOYEES_FETCH_SUCCESS, payload: snapshot.val() })
+        dispatch({ type: EMPLOYEES_FETCH_SUCCESS, payload: snapshot.val() });
       });
   };
 };
