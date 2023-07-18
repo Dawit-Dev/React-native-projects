@@ -2,8 +2,8 @@ import _ from "lodash";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import EmployeeForm from "./EmployeeForm";
-import { employeeUpdate } from "../actions";
-import { StyleSheet, Text, View } from "react-native";
+import { employeeUpdate, employeeSave } from "../actions";
+import { StyleSheet } from "react-native";
 import { Card, CardSection, Button } from "./common";
 
 const EmployeeEdit = (props) => {
@@ -14,7 +14,8 @@ const EmployeeEdit = (props) => {
   }, []);
 
   const onButtonPress = () => {
-  const { name, phone, shift } = props
+    const { name, phone, shift } = props
+    props.employeeSave({ name, phone, shift, uid: props.employee.uid })
 }
 
   return (
@@ -35,4 +36,4 @@ const mapStateToProps = (state) => {
   return { name, phone, shift }
 }
 
-export default connect(mapStateToProps, { employeeUpdate })(EmployeeEdit);
+export default connect(mapStateToProps, { employeeUpdate, employeeSave })(EmployeeEdit);
