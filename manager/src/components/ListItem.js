@@ -1,12 +1,15 @@
-import React from "react";
+ import React from "react";
 import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
-import { Actions } from "@react-native-router/flux";
+import { useNavigation } from "@react-navigation/native";
 import { CardSection } from "./common";
 
 const ListItem = (props) => {
+  const navigation = useNavigation();
+
   const onRowPress = () => {
-    Actions.employeeEdit({ employee: props.employee });
+    navigation.navigate("employeeEdit", { employee: props.employee });
   };
+
   const { name } = props.employee;
 
   return (
