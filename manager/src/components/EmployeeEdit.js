@@ -1,13 +1,15 @@
 import _ from "lodash";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Communications from "react-native-communications";
 import EmployeeForm from "./EmployeeForm";
 import { employeeUpdate, employeeSave } from "../actions";
 import { StyleSheet } from "react-native";
-import { Card, CardSection, Button } from "./common";
+import { Card, CardSection, Button, Confirm } from "./common";
 
 const EmployeeEdit = (props) => {
+ const [showModal, setShowModal] = useState(false)
+
   useEffect(() => {
     _.each(props.employee, (value, prop) => {
       props.employeeUpdate({ prop, value });
@@ -33,6 +35,14 @@ const EmployeeEdit = (props) => {
       <CardSection>
         <Button onPress={onTextPress}>Text Schedule</Button>
       </CardSection>
+      <CardSection>
+        <Button onPress={() => setShowModal(!showModal)}>
+          Fire Employee
+        </Button>
+      </CardSection>
+      <Confirm visible={showModal}>
+        Are you sure you want to delete this?
+      </Confirm>
     </Card>
   );
 };
