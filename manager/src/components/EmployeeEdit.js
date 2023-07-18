@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import Communications from "react-native-communications";
 import EmployeeForm from "./EmployeeForm";
-import { employeeUpdate, employeeSave } from "../actions";
+import { employeeUpdate, employeeSave, employeeDelete } from "../actions";
 import { StyleSheet } from "react-native";
 import { Card, CardSection, Button, Confirm } from "./common";
 
 const EmployeeEdit = (props) => {
- const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     _.each(props.employee, (value, prop) => {
@@ -26,6 +26,15 @@ const EmployeeEdit = (props) => {
     Communications.text(phone, `Your upcoming shift is on ${shift}`);
   };
 
+  const onAccept = () => {
+    const { uid } = props.employee;
+
+    props.employeeDelete({ uid })
+  };
+  const onDecline = () => {
+    setShowModal(false);
+  };
+
   return (
     <Card>
       <EmployeeForm />
@@ -36,11 +45,9 @@ const EmployeeEdit = (props) => {
         <Button onPress={onTextPress}>Text Schedule</Button>
       </CardSection>
       <CardSection>
-        <Button onPress={() => setShowModal(!showModal)}>
-          Fire Employee
-        </Button>
+        <Button onPress={() => setShowModal(!showModal)}>Fire Employee</Button>
       </CardSection>
-      <Confirm visible={showModal}>
+      <Confirm visible={showModal} onAccept={onAccept} onDecline={onDecline}>
         Are you sure you want to delete this?
       </Confirm>
     </Card>
@@ -55,6 +62,8 @@ const mapStateToProps = (state) => {
   return { name, phone, shift };
 };
 
-export default connect(mapStateToProps, { employeeUpdate, employeeSave })(
-  EmployeeEdit
-);
+export default connect(mapStateToProps, {
+  employeeUpdate,
+  employeeSave,
+  employeeDelete,
+})(EmployeeEdit);

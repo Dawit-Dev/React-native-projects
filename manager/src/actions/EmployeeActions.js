@@ -5,7 +5,7 @@ import {
   EMPLOYEE_UPDATE,
   EMPLOYEE_CREATE,
   EMPLOYEES_FETCH_SUCCESS,
-  EMPLOYEE_SAVE_SUCCESS
+  EMPLOYEE_SAVE_SUCCESS,
 } from "./types";
 import { useNavigation } from "@react-navigation/native";
 
@@ -19,7 +19,7 @@ export const employeeUpdate = ({ prop, value }) => {
   };
 };
 
-export const employeeCreate = ({ name, phone, shift }) => {
+export const employeeCreate = ({ name, phone, shift, navigation }) => {
   const { currentUser } = auth();
 
   return (dispatch) => {
@@ -29,7 +29,6 @@ export const employeeCreate = ({ name, phone, shift }) => {
       .push({ name, phone, shift })
       .then(() => {
         dispatch({ type: EMPLOYEE_CREATE });
-        const navigation = useNavigation();
         navigation.reset({ index: 0, routes: [{ name: "employeeList" }] });
       });
   };
@@ -48,7 +47,7 @@ export const employeesFetch = () => {
   };
 };
 
-export const employeeSave = ({ name, phone, shift, uid }) => {
+export const employeeSave = ({ name, phone, shift, uid, navigation }) => {
   const { currentUser } = auth();
 
   return (dispatch) => {
@@ -56,9 +55,22 @@ export const employeeSave = ({ name, phone, shift, uid }) => {
       .database()
       .ref(`/users/${currentUser.uid}/employees/${uid}`)
       .set({ name, phone, shift })
-      then(() => {
+      .then(() => {
         dispatch({ type: EMPLOYEE_SAVE_SUCCESS });
-        const navigation = useNavigation();
+        navigation.reset({ index: 0, routes: [{ name: "employeeList" }] });
+      });
+  };
+};
+
+export const employeeDelete = ({ uid, navigation }) => {
+  const { currentUser } = auth();
+
+  return () => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/employees/${uid}`)
+      .remove()
+      .then(() => {
         navigation.reset({ index: 0, routes: [{ name: "employeeList" }] });
       });
   };
